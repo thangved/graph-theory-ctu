@@ -1,4 +1,4 @@
-#define MAX_M 500
+#define MAX_M 100
 typedef struct
 {
     int u, v;
@@ -8,3 +8,9 @@ typedef struct
     int n, m;
     Edge edges[MAX_M];
 } Graph;
+
+void init_graph(Graph *pG, int n)
+{
+    pG->n = n;
+    pG->m = 0;
+}
