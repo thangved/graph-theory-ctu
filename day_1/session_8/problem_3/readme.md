@@ -16,3 +16,17 @@ Viết hàm add_edge(Graph *pG, int u, int v) để thêm cung (u, v) vào đồ
 void add_edge(Graph *pG, int u, int v) {
 }
 ```
+
+---
+
+## Solution
+
+```c
+void add_edge(Graph *pG, int u, int v)
+{
+    pG->A[u][v]++;
+    if (u != v)
+        pG->A[v][u]++;
+    pG->m++;
+}
+```

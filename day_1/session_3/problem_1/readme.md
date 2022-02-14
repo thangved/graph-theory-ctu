@@ -35,3 +35,21 @@ void add_edge(Graph *pG, int u, int v) {
 
 Nếu cung (u, v) không hợp lệ (ví dụ: u < 1 hoặc v > n, ...) thì bỏ qua không làm gì cả.
 Không nộp toàn bộ chương trình, chỉ nộp phần định nghĩa hàm add_edge().
+
+---
+
+## Solution
+
+```c
+void add_edge(Graph *pG, int u, int v)
+{
+    if (u > pG->n || v > pG->n)
+        return;
+    if (u < 1 || v < 1)
+        return;
+
+    Edge e = {u, v};
+    pG->edges[pG->m] = e;
+    pG->m++;
+}
+```

@@ -37,3 +37,16 @@ void add_edge(Graph *pG, int u, int v) {
 
 Các tham số của hàm add_edge() luôn hợp lệ (1≤u,v≤n), bạn không cần kiểm tra.
 Không nộp toàn bộ chương trình, chỉ nộp phần định nghĩa hàm add_edge().
+
+---
+
+## Solution
+
+```c
+void add_edge(Graph *pG, int u, int v)
+{
+    Edge e = {u, v};
+    pG->edges[pG->m] = e;
+    pG->m++;
+}
+```

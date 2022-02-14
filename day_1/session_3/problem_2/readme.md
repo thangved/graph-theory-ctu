@@ -36,3 +36,25 @@ void add_edge(Graph *pG, int u, int v) {
 Vì pG là đơn đồ thị có hướng nên nếu cung (u, v) đã có trong đồ thị rồi thì bỏ qua, không thêm vào nữa.
 Giả sử các tham số của hàm đều hợp lệ (1≤u,v≤n), không cần phải kiểm tra.
 Không nộp toàn bộ chương trình, chỉ nộp phần định nghĩa hàm add_edge().
+
+---
+
+## Solution
+
+```c
+void add_edge(Graph *pG, int u, int v)
+{
+    if (u > pG->n || v > pG->n)
+        return;
+    if (u < 1 || v < 1)
+        return;
+
+    for (int i = 0; i < pG->m; i++)
+        if (pG->edges[i].u == u && pG->edges[i].v == v)
+            return;
+
+    Edge e = {u, v};
+    pG->edges[pG->m] = e;
+    pG->m++;
+}
+```
