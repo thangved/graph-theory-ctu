@@ -7,6 +7,11 @@ Thumbs.db:encryptable
 ehthumbs.db
 ehthumbs_vista.db
 
+# Compile file in linux
+*
+!/**/
+!*.*
+
 # Dump file
 *.stackdump
 
