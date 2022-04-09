@@ -39,7 +39,7 @@ void addedge(Graph *pG, int u, int v, int w)
     pG->m++;
 }
 
-void FloydWarshall(Graph *pG)
+void FloydWarshall(const Graph *pG)
 {
     int pi[MAX_NODE][MAX_NODE];
     int next[MAX_NODE][MAX_NODE];
@@ -73,11 +73,12 @@ void FloydWarshall(Graph *pG)
                 }
 
     for (int u = 1; u <= pG->n; u++)
-        for (int v = 1; v <= pG->n; v++)
+        if (pi[u][u] < 0)
         {
-            printf("%d -> %d: ", u, v);
-            pi[u][v] != INFINITY ? printf("%d\n", pi[u][v]) : puts("NO PATH");
+            puts("YES");
+            return;
         }
+    puts("NO");
 }
 
 int main()

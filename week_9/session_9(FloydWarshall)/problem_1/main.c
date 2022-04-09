@@ -83,7 +83,7 @@ void FloydWarshall(Graph *pG)
 int main()
 {
     Graph G;
-    // freopen("./graph.txt", "r", stdin);
+    freopen("./graph.txt", "r", stdin);
     int n, m;
     scanf("%d%d", &n, &m);
     initgraph(&G, n);

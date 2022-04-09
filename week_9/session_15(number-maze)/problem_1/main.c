@@ -36,10 +36,11 @@ void initgraph(Graph *pG, int n)
 void addedge(Graph *pG, int u, int v, int w)
 {
     pG->W[u][v] = w;
+    pG->W[v][u] = w;
     pG->m++;
 }
 
-void FloydWarshall(Graph *pG)
+void FloydWarshall(const Graph *pG)
 {
     int pi[MAX_NODE][MAX_NODE];
     int next[MAX_NODE][MAX_NODE];
@@ -71,13 +72,7 @@ void FloydWarshall(Graph *pG)
                     pi[u][v] = pi[u][k] + pi[k][v];
                     next[u][v] = next[u][k];
                 }
-
-    for (int u = 1; u <= pG->n; u++)
-        for (int v = 1; v <= pG->n; v++)
-        {
-            printf("%d -> %d: ", u, v);
-            pi[u][v] != INFINITY ? printf("%d\n", pi[u][v]) : puts("NO PATH");
-        }
+    printf("%d", pi[1][pG->n] != INFINITY ? pi[1][pG->n] : -1);
 }
 
 int main()
@@ -86,12 +81,17 @@ int main()
     // freopen("./graph.txt", "r", stdin);
     int n, m;
     scanf("%d%d", &n, &m);
-    initgraph(&G, n);
-    for (int i = 0; i < m; i++)
+    initgraph(&G, n * m);
+    for (int i = 1; i <= n * m; i++)
     {
-        int u, v, w;
-        scanf("%d%d%d", &u, &v, &w);
-        addedge(&G, u, v, w);
+        int w;
+        scanf("%d", &w);
+        addedge(&G, i - m, i, w);
+        addedge(&G, i + m, i, w);
+        if (i % m)
+            addedge(&G, i + 1, i, w);
+        if ((i - 1) % m)
+            addedge(&G, i - 1, i, w);
     }
     FloydWarshall(&G);
     return 0;
