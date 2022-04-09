@@ -117,8 +117,8 @@ void BFS(Graph *pG, int u)
 
 int main()
 {
-    // Graph G = read_graph_from_file((char *)"./graph.txt");
-    Graph G = read_graph_from_keyboard();
+    Graph G = read_graph_from_file((char *)"./graph.txt");
+    // Graph G = read_graph_from_keyboard();
     initial();
     for (int i = 1; i <= G.n; i++)
         if (!marked[i])
