@@ -121,7 +121,6 @@ int main()
     int s, t;
     scanf("%d%d", &s, &t);
 
-    BellmanFord(&G, s);
-    printpath(s, t);
+    BellmanFord(&G, s) ? puts("YES") : puts("NO");
     return 0;
 }

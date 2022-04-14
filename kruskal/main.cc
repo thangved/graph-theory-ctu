@@ -9,6 +9,7 @@ typedef struct
 {
     int u, v, w;
     bool active;
+    int root_u, root_v;
 } Edge;
 
 typedef struct
@@ -36,14 +37,28 @@ void popedge(Graph &G)
     G.m = G.edges.size();
 }
 
-void printedges(const Graph &G)
+void printedges(const Graph &G, bool character = false)
 {
-    cout << "#\tu\tv\tw\tadd" << endl;
+    const string divider = "+-------------------------------------------------------+\n";
+    cout << divider;
+    cout << "| #\tu\tv\tw\troot_u\troot_v\tadd\t|" << endl;
+    cout << divider;
     int i = 1;
     for (auto edge = G.edges.begin(); edge != G.edges.end(); edge++)
     {
-        cout << i++ << "\t";
-        cout << edge->u << "\t" << edge->v << "\t" << edge->w << "\t" << (edge->active ? "x" : "no") << endl;
+        cout << "| " << i++ << "\t";
+        if (character)
+            cout << (char)(edge->u + 'A' - 1) << "\t" << (char)(edge->v + 'A' - 1);
+        if (!character)
+            cout << edge->u << "\t" << edge->v;
+        cout << "\t" << edge->w << "\t";
+        if (character)
+            cout << (char)(edge->root_u + 'A' - 1) << "\t" << (char)(edge->root_v + 'A' - 1);
+        if (!character)
+            cout << edge->root_u << "\t" << edge->root_v;
+
+        cout << "\t" << (edge->active ? "x" : "no") << "\t|" << endl;
+        cout << divider;
     }
 }
 
@@ -60,6 +75,28 @@ int findroot(int parents[], int u)
     return u;
 }
 
+void printdivider(int n)
+{
+    cout << "+-";
+    for (int i = 0; i < n; i++)
+        cout << "---------";
+    cout << "-+" << endl;
+}
+
+void printparents(const int parents[], int n)
+{
+    printdivider(n);
+    cout << "| \t";
+    for (int i = 1; i <= n; i++)
+        cout << i << "\t";
+    cout << " |\n";
+    printdivider(n);
+    cout << "| \t";
+    for (int i = 1; i <= n; i++)
+        cout << parents[i] << "\t";
+    cout << " |\n";
+    printdivider(n);
+}
 void kruskal(Graph &G)
 {
     int parents[100];
@@ -74,6 +111,8 @@ void kruskal(Graph &G)
     {
         int ru = findroot(parents, edge->u);
         int rv = findroot(parents, edge->v);
+        edge->root_u = ru;
+        edge->root_v = rv;
         if (ru == rv)
             continue;
         addedge(T, edge->u, edge->v, edge->w);
@@ -81,7 +120,8 @@ void kruskal(Graph &G)
         edge->active = true;
     }
 
-    printedges(G);
+    printedges(G, true);
+    printparents(parents, G.n);
 }
 int main()
 {
