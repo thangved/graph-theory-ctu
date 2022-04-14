@@ -1,5 +1,7 @@
 # Đừng đọc tôi
 
+![thangved](assets/images/thangved.png)
+
 ```sh
 .
 ├── kruskal
