@@ -1,3 +1,13 @@
+/**
+ * @file max-remove-w.c
+ * @author thangved (thangved02@gmail.com)
+ * @brief Cho đồ thị G = <V, E> vô hướng, liên thông và có trọng số. Viết chương trình tìm cách xoá một số cung của G sao cho G vẫn còn liên thông và tổng trọng số của các cung bị xoá là lớn nhất.
+ * @version 0.1
+ * @date 2022-04-14
+ *
+ * @copyright Copyright (c) 2022 Kim Minh Thang
+ *
+ */
 #include <stdio.h>
 
 #define MAX_NODE 100
