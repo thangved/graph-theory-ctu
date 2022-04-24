@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #define MAX_NODE 100
 #define INFINITE __INT_MAX__
 
@@ -21,7 +23,8 @@ int emptyqueue(Queue q)
 
 void enqueue(int x, Queue *pQ)
 {
-    pQ->elements[pQ->rear++] = x;
+    pQ->rear++;
+    pQ->elements[pQ->rear] = x;
 }
 
 void dequeue(Queue *pQ)
@@ -105,13 +108,79 @@ void FordFullkerson(Graph *pG, int source, int sink)
 
             for (int v = 1; v <= pG->n; v++)
             {
-                if (!pG->C[u][v])
+                if (!pG->C[u][v] || labels[v].dir)
                     continue;
 
                 int increase = min(labels[u].sigma, pG->C[u][v] - pG->F[u][v]);
                 if (!increase)
                     continue;
+                
+                labels[v].dir = PLUS;
+                labels[v].sigma = increase;
+                labels[v].p = u;
+                enqueue(v, &q);
+            }
+
+            for (int v = 1; v <= pG->n; v++)
+            {
+                if (!pG->C[v][u] || labels[v].dir)
+                    continue;
+
+                int decrease = min(labels[u].sigma, pG->C[v][u] - pG->F[v][u]);
+                if (!decrease)
+                    continue;
+                
+                labels[v].dir = MINUS;
+                labels[v].sigma = decrease;
+                labels[v].p = u;
+                enqueue(v, &q);
             }
         }
+
+        if (!labels[sink].dir)
+            break;
+        maxflow += labels[sink].sigma;
+        int increase = labels[sink].sigma;
+        makequeue(&q);
+        enqueue(sink, &q);
+        while(!emptyqueue(q))
+        {
+            int v = front(q);
+            dequeue(&q);
+            if (!labels[v].p)
+                continue;
+            enqueue(labels[v].p, &q);
+            if (labels[v].dir == PLUS)
+                pG->F[labels[v].p][v] += increase;
+            if (labels[v].dir == MINUS)
+                pG->F[labels[v].p][v] -= increase;
+        }
     }
+
+    printf("Max flow: %d\n", maxflow);
+    printf("S: ");
+    for (int u = 1; u <= pG->n; u++)
+        if (labels[u].dir)
+            printf("%d ", u);
+    printf("\nT: ");
+    for (int u = 1; u <= pG->n; u++)
+        if (!labels[u].dir)
+            printf("%d ", u);
+}
+
+int main()
+{
+    int n, m;
+    scanf("%d%d", &n, &m);
+    Graph G;
+    init_graph(&G, n);
+
+    for (int i = 0; i < m; i++)
+    {
+        int u, v, c;
+        scanf("%d%d%d", &u, &v, &c);
+        add_edge(&G, u, v, c);
+    }
+    FordFullkerson(&G, 1, n);
+    return 0;
 }
