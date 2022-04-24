@@ -120,7 +120,7 @@ void kruskal(Graph &G)
         edge->active = true;
     }
 
-    printedges(G, true);
+    printedges(G);
     printparents(parents, G.n);
 }
 int main()

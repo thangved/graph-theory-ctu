@@ -54,7 +54,7 @@ Graph read_graph_from_keyboard()
     return G;
 }
 
-Graph read_graph_from_file(char *filepath)
+Graph read_graph_from_file(const char *filepath)
 {
     FILE *f = freopen(filepath, "r", stdin);
     Graph G = read_graph_from_keyboard();
